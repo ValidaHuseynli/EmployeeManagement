@@ -8,7 +8,7 @@ import java.util.List;
 public interface DepartmentService {
 
     DepartmentResponse saveDepartment(DepartmentRequest request);
-    DepartmentResponse getDepartment(int id);
+    DepartmentResponse getDepartmentById(int id);
     List<DepartmentResponse> getAllDepartments();
 
     DepartmentResponse updateDepartment(int id, DepartmentRequest request);

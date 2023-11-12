@@ -27,14 +27,12 @@ public class Department {
     private int id;
     private String name;
 
-    @OneToMany(orphanRemoval = true, mappedBy = "department_id")
+    //, mappedBy = "department_id"
+    @OneToMany(orphanRemoval = true)
     private Set<Position> positions;
 
-
+    //, mappedBy = "department_id"
     @OneToMany(orphanRemoval = true)
-    @JoinTable(name = "department_employees",
-            joinColumns = @JoinColumn(name = "department_id"),
-            inverseJoinColumns = @JoinColumn(name = "employee_id"))
     private Set<Employee> employees;
 
     @CreationTimestamp
@@ -47,6 +45,9 @@ public class Department {
     private void preRemove() {
         for (Position position : positions) {
             position.setDepartment_id(null); // Remove the association to avoid constraint violations
+        }
+        for (Employee employee : employees) {
+            employee.setDepartment_id(null); // Remove the association to avoid constraint violations
         }
     }
 

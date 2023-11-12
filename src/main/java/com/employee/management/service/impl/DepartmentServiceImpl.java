@@ -33,7 +33,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public DepartmentResponse getDepartment(int id) {
+    public DepartmentResponse getDepartmentById(int id) {
         logger.info("ActionLog.getDepartment.start id: {}", id);
 
         var department = departmentRepository.findById(id)

@@ -1,16 +1,6 @@
 package com.employee.management.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
@@ -45,10 +35,8 @@ public class Position {
             inverseJoinColumns = @JoinColumn(name = "department_id"))
     private Department department_id;
 
+    //, mappedBy = "position_id"
     @OneToMany(  orphanRemoval = true)
-    @JoinTable(name = "position_employees",
-            joinColumns = @JoinColumn(name = "position_id"),
-            inverseJoinColumns = @JoinColumn(name = "employee_id"))
     private Set<Employee> employees;
 
     @CreationTimestamp
@@ -56,4 +44,11 @@ public class Position {
 
     @UpdateTimestamp
     private LocalDateTime updated_at;
+
+    @PreRemove
+    private void preRemove() {
+        for (Employee employee : employees) {
+            employee.setPosition_id(null); // Remove the association to avoid constraint violations
+        }
+    }
 }

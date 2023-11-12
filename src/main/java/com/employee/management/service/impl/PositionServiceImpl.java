@@ -1,8 +1,6 @@
 package com.employee.management.service.impl;
 
-import com.employee.management.entity.Position;
 import com.employee.management.exception.NotFoundException;
-import com.employee.management.mapper.DepartmentMapper;
 import com.employee.management.mapper.PositionMapper;
 import com.employee.management.model.PositionRequest;
 import com.employee.management.model.PositionResponse;
@@ -37,7 +35,7 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public PositionResponse getPosition(int id) {
+    public PositionResponse getPositionById(int id) {
         logger.info("ActionLog.getPosition.start id: {}", id);
 
         var position = positionRepository.findById(id)

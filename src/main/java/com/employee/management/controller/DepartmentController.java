@@ -24,8 +24,8 @@ public class DepartmentController {
     }
 
     @GetMapping("/{id}")
-    public DepartmentResponse getDepartment(@PathVariable int id){
-        return departmentService.getDepartment(id);
+    public DepartmentResponse getDepartmentById(@PathVariable int id){
+        return departmentService.getDepartmentById(id);
     }
 
     @GetMapping

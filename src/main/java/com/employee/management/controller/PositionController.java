@@ -23,8 +23,8 @@ public class PositionController {
     }
 
     @GetMapping("/{id}")
-    public PositionResponse getPosition(@PathVariable int id){
-        return positionService.getPosition(id);
+    public PositionResponse getPositionById(@PathVariable int id){
+        return positionService.getPositionById(id);
     }
 
     @GetMapping
@@ -39,7 +39,7 @@ public class PositionController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePosition(@PathVariable int id){
-         positionService.deletePosition(id);
+        positionService.deletePosition(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

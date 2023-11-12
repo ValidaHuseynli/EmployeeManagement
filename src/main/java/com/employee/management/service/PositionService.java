@@ -9,7 +9,7 @@ public interface PositionService {
 
     PositionResponse savePosition(PositionRequest request);
 
-    PositionResponse getPosition(int id);
+    PositionResponse getPositionById(int id);
 
     List<PositionResponse> getAllPositions();
     PositionResponse updatePosition(int id, PositionRequest request);

@@ -1,12 +1,6 @@
 package com.employee.management.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
@@ -33,12 +27,16 @@ public class Employee {
     private String surname;
     private String email;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "department_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "employees_department",
+            joinColumns = @JoinColumn(name = "employees_id"),
+            inverseJoinColumns = @JoinColumn(name = "department_id"))
     private Department department_id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "position_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "employees_position",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "position_id"))
     private Position position_id;
 
 

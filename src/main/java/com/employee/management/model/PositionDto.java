@@ -9,11 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeeResponse {
+public class PositionDto {
     private int id;
-    private String name;
-    private String surname;
-    private String email;
-    private DepartmentDto department_id;
-    private PositionDto position_id;
 }
