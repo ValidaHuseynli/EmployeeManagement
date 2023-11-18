@@ -14,6 +14,7 @@ import java.util.List;
 public abstract class EmployeeMapper {
     public static final EmployeeMapper INSTANCE = Mappers.getMapper(EmployeeMapper.class);
 
+    @Mapping(target = "status", expression = "java(getStatus())")
     public abstract Employee modelToEntity(EmployeeRequest request);
 
     public abstract EmployeeResponse entityToModel(Employee employee);
@@ -22,4 +23,8 @@ public abstract class EmployeeMapper {
 
     public abstract void modelToEntityUpdate (@MappingTarget Employee employee, EmployeeRequest request);
 
+    @Named("getStatus")
+    protected boolean getStatus(){
+        return true;
+    }
 }

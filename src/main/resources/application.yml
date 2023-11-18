@@ -5,18 +5,14 @@ logging:
   level:
     root: info
 
-
 spring:
-  security:
-    user:
-      name: user
-      password: 1234
 
   datasource:
     url: jdbc:mysql://localhost:3306/employee_management?allowPublicKeyRetrieval=true&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 12345
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -29,3 +25,6 @@ spring:
 
 root:
   url: /api/v1/employee_management
+
+secret:
+  key: fa0777bf024e9b7ff4b87ce04554a00a84b8d241eabefa9db2e0793f35f13d14

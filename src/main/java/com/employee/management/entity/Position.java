@@ -21,10 +21,10 @@ import java.util.Set;
 @ToString
 @Builder
 @Entity
+@Table(name = "position")
 public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "position_id")
     private int id;
     private String name;
     private double salary;
@@ -35,20 +35,22 @@ public class Position {
             inverseJoinColumns = @JoinColumn(name = "department_id"))
     private Department department_id;
 
-    //, mappedBy = "position_id"
-    @OneToMany(  orphanRemoval = true)
+    //,orphanRemoval = true mappedBy = "position_id"
+    @OneToMany(orphanRemoval = true, mappedBy = "position_id")
     private Set<Employee> employees;
 
     @CreationTimestamp
+    @Column(name = "created_at")
     private LocalDateTime created_at;
 
     @UpdateTimestamp
+    @Column(name = "updated_at")
     private LocalDateTime updated_at;
 
     @PreRemove
     private void preRemove() {
         for (Employee employee : employees) {
-            employee.setPosition_id(null); // Remove the association to avoid constraint violations
+            employee.setPosition_id(null);
         }
     }
 }

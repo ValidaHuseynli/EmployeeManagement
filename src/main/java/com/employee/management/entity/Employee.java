@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 @ToString
 @Builder
 @Entity
+@Table(name = "employee")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,11 +42,13 @@ public class Employee {
 
 
     private boolean status;
+
     @CreationTimestamp
+    @Column(name = "created_at")
     private LocalDateTime created_at;
 
     @UpdateTimestamp
+    @Column(name = "updated_at")
     private LocalDateTime updated_at;
-
 
 }

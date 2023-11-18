@@ -20,25 +20,27 @@ import java.util.Set;
 @ToString
 @Builder
 @Entity
-@Table
+@Table(name = "department")
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
 
-    //, mappedBy = "department_id"
-    @OneToMany(orphanRemoval = true)
+    //
+    @OneToMany(orphanRemoval = true, mappedBy = "department_id")
     private Set<Position> positions;
 
-    //, mappedBy = "department_id"
-    @OneToMany(orphanRemoval = true)
+    //, orphanRemoval = true
+    @OneToMany(orphanRemoval = true, mappedBy = "department_id")
     private Set<Employee> employees;
 
     @CreationTimestamp
+    @Column(name = "created_at")
     private LocalDateTime created_at;
 
     @UpdateTimestamp
+    @Column(name = "updated_at")
     private LocalDateTime updated_at;
 
     @PreRemove
