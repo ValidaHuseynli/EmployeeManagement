@@ -24,6 +24,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeResponse saveEmployee(EmployeeRequest request) {
         logger.info("ActionLog.saveEmployee.start: {}", request);
+
         Employee employee = EmployeeMapper.INSTANCE.modelToEntity(request);
         Employee saved = employeeRepository.save(employee);
         EmployeeResponse response = EmployeeMapper.INSTANCE.entityToModel(saved);

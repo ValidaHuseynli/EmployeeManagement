@@ -9,6 +9,7 @@ public interface EmployeeService {
     EmployeeResponse saveEmployee(EmployeeRequest request);
 
     EmployeeResponse getEmployeeById(int id);
+
     List<EmployeeResponse> getAllEmployees();
 
     EmployeeResponse updateEmployee(int id, EmployeeRequest request);

@@ -22,20 +22,20 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+
     @Override
     public UserResponse saveUser(UserRequest request) {
         logger.info("ActionLog.saveUser.start request: {}", request);
 
         request.setPassword(passwordEncoder.encode(request.getPassword()));
-
         User user = UserMapper.INSTANCE.modelToEntity(request);
         User savedUser = userRepository.save(user);
         UserResponse response = UserMapper.INSTANCE.entityToModel(savedUser);
+
         logger.info("ActionLog.saveUser.start request: {}", request);
         return response;
     }

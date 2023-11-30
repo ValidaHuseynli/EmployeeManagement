@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("${root.url}/auth")
 public class AuthController {
     private final UserService userService;
-    private final JwtService jwtService;
 
     @PostMapping("/register")
     public UserResponse saveUser(@RequestBody UserRequest request) {
@@ -25,8 +24,4 @@ public class AuthController {
     public LoginResponse login(@RequestBody LoginRequest request) {
         return userService.login(request);
     }
-
-
-
-
 }

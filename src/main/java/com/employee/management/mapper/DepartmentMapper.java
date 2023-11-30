@@ -3,7 +3,11 @@ package com.employee.management.mapper;
 import com.employee.management.entity.Department;
 import com.employee.management.model.DepartmentRequest;
 import com.employee.management.model.DepartmentResponse;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.NullValueCheckStrategy;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -20,6 +24,6 @@ public abstract class DepartmentMapper {
 
     public abstract List<DepartmentResponse> entitiesToModel(List<Department> departments);
 
-    public abstract void modelToEntityUpdate (@MappingTarget Department department, DepartmentRequest request);
+    public abstract void modelToEntityUpdate(@MappingTarget Department department, DepartmentRequest request);
 
 }

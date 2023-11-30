@@ -50,8 +50,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         var all = departmentRepository.findAll();
         var responses = DepartmentMapper.INSTANCE.entitiesToModel(all);
-        logger.info("ActionLog.getAllDepartments.end");
 
+        logger.info("ActionLog.getAllDepartments.end");
         return responses;
     }
 
@@ -61,7 +61,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         var department = departmentRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Department is not found for id: " + id));
-
         DepartmentMapper.INSTANCE.modelToEntityUpdate(department, request);
         var saved = departmentRepository.save(department);
         var response = DepartmentMapper.INSTANCE.entityToModel(saved);

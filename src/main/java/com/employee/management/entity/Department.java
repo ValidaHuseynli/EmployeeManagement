@@ -1,6 +1,13 @@
 package com.employee.management.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Column;
+import jakarta.persistence.PreRemove;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
@@ -13,6 +20,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -46,13 +54,12 @@ public class Department {
     @PreRemove
     private void preRemove() {
         for (Position position : positions) {
-            position.setDepartment_id(null); // Remove the association to avoid constraint violations
+            position.setDepartment_id(null);
         }
         for (Employee employee : employees) {
-            employee.setDepartment_id(null); // Remove the association to avoid constraint violations
+            employee.setDepartment_id(null);
         }
     }
-
 
 
 }

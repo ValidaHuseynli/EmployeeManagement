@@ -3,9 +3,10 @@ package com.employee.management.exception;
 import lombok.Getter;
 
 @Getter
-public class NotFoundException extends RuntimeException{
+public class NotFoundException extends RuntimeException {
     private final String message;
-    public NotFoundException(String message){
-        this.message=message;
+
+    public NotFoundException(String message) {
+        this.message = message;
     }
 }

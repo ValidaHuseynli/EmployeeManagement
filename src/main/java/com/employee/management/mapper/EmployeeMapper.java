@@ -3,7 +3,13 @@ package com.employee.management.mapper;
 import com.employee.management.entity.Employee;
 import com.employee.management.model.EmployeeRequest;
 import com.employee.management.model.EmployeeResponse;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.NullValueCheckStrategy;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -21,10 +27,10 @@ public abstract class EmployeeMapper {
 
     public abstract List<EmployeeResponse> entitiesToModel(List<Employee> employees);
 
-    public abstract void modelToEntityUpdate (@MappingTarget Employee employee, EmployeeRequest request);
+    public abstract void modelToEntityUpdate(@MappingTarget Employee employee, EmployeeRequest request);
 
     @Named("getStatus")
-    protected boolean getStatus(){
+    protected boolean getStatus() {
         return true;
     }
 }

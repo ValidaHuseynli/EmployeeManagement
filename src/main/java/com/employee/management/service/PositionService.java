@@ -12,7 +12,9 @@ public interface PositionService {
     PositionResponse getPositionById(int id);
 
     List<PositionResponse> getAllPositions();
+
     PositionResponse updatePosition(int id, PositionRequest request);
+
     void deletePosition(int id);
 
 }

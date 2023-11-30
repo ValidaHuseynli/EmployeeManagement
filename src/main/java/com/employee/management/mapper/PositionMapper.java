@@ -3,7 +3,11 @@ package com.employee.management.mapper;
 import com.employee.management.entity.Position;
 import com.employee.management.model.PositionRequest;
 import com.employee.management.model.PositionResponse;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.NullValueCheckStrategy;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -15,12 +19,12 @@ public abstract class PositionMapper {
     public static final PositionMapper INSTANCE = Mappers.getMapper(PositionMapper.class);
 
     public abstract Position modelToEntity(PositionRequest request);
+
     public abstract PositionResponse entityToModel(Position position);
 
     public abstract List<PositionResponse> entitiesToModel(List<Position> positions);
 
-    public abstract void modelToEntityUpdate (@MappingTarget Position position, PositionRequest request);
-
+    public abstract void modelToEntityUpdate(@MappingTarget Position position, PositionRequest request);
 
 
 }

@@ -20,7 +20,6 @@ public class PositionServiceImpl implements PositionService {
     private final PositionRepository positionRepository;
     private static final Logger logger = LoggerFactory.getLogger(PositionServiceImpl.class);
 
-
     @Override
     public PositionResponse savePosition(PositionRequest request) {
         logger.info("ActionLog.savePosition.start: {}", request);
@@ -30,7 +29,6 @@ public class PositionServiceImpl implements PositionService {
         var response = PositionMapper.INSTANCE.entityToModel(saved);
 
         logger.info("ActionLog.savePosition.end: {}", request);
-
         return response;
     }
 
@@ -39,7 +37,7 @@ public class PositionServiceImpl implements PositionService {
         logger.info("ActionLog.getPosition.start id: {}", id);
 
         var position = positionRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Department is not found for id: " + id));
+                .orElseThrow(() -> new NotFoundException("Position is not found for id: " + id));
         var response = PositionMapper.INSTANCE.entityToModel(position);
 
         logger.info("ActionLog.getPosition.end id: {}", id);
@@ -62,7 +60,7 @@ public class PositionServiceImpl implements PositionService {
         logger.info("ActionLog.updatePosition.start id: {}", id);
 
         var position = positionRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Department is not found for id: " + id));
+                .orElseThrow(() -> new NotFoundException("Position is not found for id: " + id));
         PositionMapper.INSTANCE.modelToEntityUpdate(position, request);
         var saved = positionRepository.save(position);
         var response = PositionMapper.INSTANCE.entityToModel(saved);
@@ -76,7 +74,7 @@ public class PositionServiceImpl implements PositionService {
         logger.info("ActionLog.deletePosition.start id: {}", id);
 
         var position = positionRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Department is not found for id: " + id));
+                .orElseThrow(() -> new NotFoundException("Position is not found for id: " + id));
         positionRepository.delete(position);
 
         logger.info("ActionLog.deletePosition.end id: {}", id);
