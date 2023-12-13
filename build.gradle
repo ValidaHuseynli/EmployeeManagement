@@ -10,11 +10,7 @@ version = '0.0.1-SNAPSHOT'
 java {
 	sourceCompatibility = '20'
 }
-ext {
-	grpcOnlineNsVersion = '1.0.16'
-	googleAuthVersion = '1.4.0'
-	googleZxingVersion = '3.3.0'
-}
+
 
 configurations {
 	compileOnly {
@@ -31,6 +27,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'javax.servlet:javax.servlet-api:4.0.1' // Kullanılan versiyonu kontrol edin
+
+
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
@@ -49,7 +51,6 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
-
 
 tasks.named('jar'){
 	archiveFileName = 'foo.jar'

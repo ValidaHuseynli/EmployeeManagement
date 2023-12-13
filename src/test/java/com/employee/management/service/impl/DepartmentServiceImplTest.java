@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
@@ -31,19 +33,19 @@ class DepartmentServiceImplTest {
 
     @Test
     void getDepartmentByIdSuccessTest() {
-
         //given
         int id = 1;
         Department department = Department.builder().id(id).name("Finance").build();
         given(departmentRepository.findById(id)).willReturn(Optional.of(department));
 
         //when
-        DepartmentResponse response = departmentService.getDepartmentById(id);
+        Optional<DepartmentResponse> response = departmentService.getDepartmentById(id);
+        DepartmentResponse response1 = response.get();
 
         //then
         assertThat(response).isNotNull();
-        assertEquals(1, response.id());
-        assertEquals("Finance", response.name());
+        assertEquals(1, response1.id());
+        assertEquals("Finance", response1.name());
     }
 
     @Test
@@ -62,7 +64,7 @@ class DepartmentServiceImplTest {
         when(departmentRepository.save(any(Department.class))).thenReturn(department);
         //when
 
-        DepartmentResponse response = departmentService.saveDepartment(request);
+        Optional<DepartmentResponse> response = departmentService.saveDepartment(request);
         //then
         assertThat(response).isNotNull();
     }
@@ -93,7 +95,7 @@ class DepartmentServiceImplTest {
         department.setName(request.name());
         //when
         when(departmentRepository.save(any(Department.class))).thenReturn(department);
-        DepartmentResponse response = departmentService.updateDepartment(id, request);
+        Optional<DepartmentResponse> response = departmentService.update(id, request);
 
         //then
         assertNotNull(response);
@@ -105,7 +107,7 @@ class DepartmentServiceImplTest {
         DepartmentRequest request = new DepartmentRequest("Sale");
         given(departmentRepository.findById(anyInt())).willReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> departmentService.updateDepartment(id, request));
+        assertThrows(NotFoundException.class, () -> departmentService.update(id, request));
 
     }
 

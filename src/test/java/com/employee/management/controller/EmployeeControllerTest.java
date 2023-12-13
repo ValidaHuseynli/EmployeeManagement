@@ -1,6 +1,5 @@
 package com.employee.management.controller;
 
-import com.employee.management.model.DepartmentDto;
 import com.employee.management.model.PositionDto;
 import com.employee.management.model.EmployeeRequest;
 import com.employee.management.model.EmployeeResponse;
@@ -18,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.when;
@@ -47,12 +47,11 @@ class EmployeeControllerTest {
         int positionId = 1;
         int departmentId = 1;
         int employeeId = 1;
-        DepartmentDto departmentDto = DepartmentDto.builder().id(departmentId).build();
         PositionDto positionDto = PositionDto.builder().id(positionId).build();
-        EmployeeRequest request = new EmployeeRequest("Sitara", "Amrehmedova", "@AStar", departmentDto, positionDto);
-        EmployeeResponse response = new EmployeeResponse(employeeId, "Sitara", "Amrehmedova", "@AStar", departmentDto, positionDto);
+        EmployeeRequest request = new EmployeeRequest("Sitara", "Amrehmedova", "@AStar", positionDto);
+        EmployeeResponse response = new EmployeeResponse(employeeId, "Sitara", "Amrehmedova", "@AStar", positionDto);
 
-        when(employeeService.saveEmployee(request)).thenReturn(response);
+        when(employeeService.saveEmployee(request)).thenReturn(Optional.of(response));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/employee_management/employees")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN")))
@@ -69,13 +68,11 @@ class EmployeeControllerTest {
     @Test
     void getEmployeeByIdTest() throws Exception {
         int positionId = 1;
-        int departmentId = 1;
         int employeeId = 1;
-        DepartmentDto departmentDto = DepartmentDto.builder().id(departmentId).build();
         PositionDto positionDto = PositionDto.builder().id(positionId).build();
-        EmployeeResponse response = new EmployeeResponse(employeeId, "Sitara", "Amrehmedova", "@AStar", departmentDto, positionDto);
+        EmployeeResponse response = new EmployeeResponse(employeeId, "Sitara", "Amrehmedova", "@AStar", positionDto);
 
-        when(employeeService.getEmployeeById(employeeId)).thenReturn(response);
+        when(employeeService.getEmployeeById(employeeId)).thenReturn(Optional.of(response));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/employee_management/employees/{id}", employeeId)
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"),
@@ -92,16 +89,12 @@ class EmployeeControllerTest {
     void getAllEmployeesTest() throws Exception {
         int positionId1 = 12;
         int positionId2 = 13;
-        int departmentId1 = 13;
-        int departmentId2 = 13;
         int employeeId1 = 1;
         int employeeId2 = 21;
-        DepartmentDto departmentDto1 = DepartmentDto.builder().id(departmentId1).build();
-        DepartmentDto departmentDto2 = DepartmentDto.builder().id(departmentId2).build();
         PositionDto positionDto1 = PositionDto.builder().id(positionId1).build();
         PositionDto positionDto2 = PositionDto.builder().id(positionId2).build();
-        EmployeeResponse response1 = new EmployeeResponse(employeeId1, "Sitara", "Amrehmedova", "@AStar", departmentDto1, positionDto1);
-        EmployeeResponse response2 = new EmployeeResponse(employeeId2, "Sebine", "Rustemli", "@RSabina", departmentDto2, positionDto2);
+        EmployeeResponse response1 = new EmployeeResponse(employeeId1, "Sitara", "Amrehmedova", "@AStar", positionDto1);
+        EmployeeResponse response2 = new EmployeeResponse(employeeId2, "Sebine", "Rustemli", "@RSabina", positionDto2);
 
         when(employeeService.getAllEmployees()).thenReturn(Arrays.asList(response1, response2));
 
@@ -116,14 +109,12 @@ class EmployeeControllerTest {
     @Test
     void updateEmployeeTest() throws Exception {
         int positionId = 1;
-        int departmentId = 1;
         int employeeId = 1;
-        DepartmentDto departmentDto = DepartmentDto.builder().id(departmentId).build();
         PositionDto positionDto = PositionDto.builder().id(positionId).build();
-        EmployeeRequest request = new EmployeeRequest("Sabina", "Rustemli", "@SRustemli", departmentDto, positionDto);
-        EmployeeResponse response = new EmployeeResponse(employeeId, "Sabina", "Rustemli", "@SRustemli", departmentDto, positionDto);
+        EmployeeRequest request = new EmployeeRequest("Sabina", "Rustemli", "@SRustemli", positionDto);
+        EmployeeResponse response = new EmployeeResponse(employeeId, "Sabina", "Rustemli", "@SRustemli", positionDto);
 
-        when(employeeService.updateEmployee(employeeId, request)).thenReturn(response);
+        when(employeeService.updateEmployee(employeeId, request)).thenReturn(Optional.of(response));
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/employee_management/employees/{id}", employeeId)
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN")))

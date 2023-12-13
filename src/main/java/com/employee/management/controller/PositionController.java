@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,12 +19,12 @@ public class PositionController {
     private final PositionService positionService;
 
     @PostMapping
-    public PositionResponse savePosition(@RequestBody PositionRequest request) {
+    public Optional<PositionResponse> savePosition(@RequestBody PositionRequest request) {
         return positionService.savePosition(request);
     }
 
     @GetMapping("/{id}")
-    public PositionResponse getPositionById(@PathVariable int id) {
+    public Optional<PositionResponse> getPositionById(@PathVariable int id) {
         return positionService.getPositionById(id);
     }
 
@@ -33,7 +34,7 @@ public class PositionController {
     }
 
     @PutMapping("/{id}")
-    public PositionResponse updatePosition(@PathVariable int id, @RequestBody PositionRequest request) {
+    public Optional<PositionResponse> updatePosition(@PathVariable int id, @RequestBody PositionRequest request) {
         return positionService.updatePosition(id, request);
     }
 

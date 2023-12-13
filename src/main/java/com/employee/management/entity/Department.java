@@ -1,13 +1,6 @@
 package com.employee.management.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Column;
-import jakarta.persistence.PreRemove;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
@@ -35,13 +28,9 @@ public class Department {
     private int id;
     private String name;
 
-    //
     @OneToMany(orphanRemoval = true, mappedBy = "department_id")
     private Set<Position> positions;
 
-    //, orphanRemoval = true
-    @OneToMany(orphanRemoval = true, mappedBy = "department_id")
-    private Set<Employee> employees;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -56,9 +45,7 @@ public class Department {
         for (Position position : positions) {
             position.setDepartment_id(null);
         }
-        for (Employee employee : employees) {
-            employee.setDepartment_id(null);
-        }
+
     }
 
 

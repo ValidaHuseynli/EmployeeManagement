@@ -4,15 +4,16 @@ import com.employee.management.model.EmployeeRequest;
 import com.employee.management.model.EmployeeResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployeeService {
-    EmployeeResponse saveEmployee(EmployeeRequest request);
+    Optional<EmployeeResponse> saveEmployee(EmployeeRequest request);
 
-    EmployeeResponse getEmployeeById(int id);
+    Optional<EmployeeResponse> getEmployeeById(int id);
 
     List<EmployeeResponse> getAllEmployees();
 
-    EmployeeResponse updateEmployee(int id, EmployeeRequest request);
+    Optional<EmployeeResponse> updateEmployee(int id, EmployeeRequest request);
 
     void deleteEmployee(int id);
 }

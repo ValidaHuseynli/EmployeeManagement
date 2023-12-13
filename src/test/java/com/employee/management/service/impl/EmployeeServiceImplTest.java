@@ -4,7 +4,6 @@ import com.employee.management.entity.Department;
 import com.employee.management.entity.Employee;
 import com.employee.management.entity.Position;
 import com.employee.management.exception.NotFoundException;
-import com.employee.management.model.DepartmentDto;
 import com.employee.management.model.EmployeeRequest;
 import com.employee.management.model.EmployeeResponse;
 import com.employee.management.model.PositionDto;
@@ -19,7 +18,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
@@ -37,25 +38,25 @@ class EmployeeServiceImplTest {
         int employeeId = 1;
         int departmentId = 1;
         int positionId = 1;
-        DepartmentDto departmentDto = DepartmentDto.builder().id(departmentId).build();
+
         PositionDto positionDto = PositionDto.builder().id(positionId).build();
         EmployeeRequest request = new EmployeeRequest
-                ("Aygul", "Huseynli", "@Ahuseyn", departmentDto, positionDto);
+                ("Aygul", "Huseynli", "@Ahuseyn", positionDto);
 
         Department department = Department.builder().id(departmentId).name("Finance").build();
 
         Position position = Position.builder()
                 .id(positionId).name("Finance Manager").salary(1500).department_id(department).build();
         Employee employee = Employee.builder()
-                .id(employeeId).name("Aygul").surname("Huseynli").email("@AHuseynli").department_id(department).position_id(position).build();
+                .id(employeeId).name("Aygul").surname("Huseynli").email("@AHuseynli").position_id(position).build();
 
         //when
         when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
-        EmployeeResponse response = employeeService.saveEmployee(request);
-
+        Optional<EmployeeResponse> response = employeeService.saveEmployee(request);
+        EmployeeResponse response1 = response.get();
         //then
         assertNotNull(response);
-        assertEquals(1, response.id());
+        assertEquals(1, response1.id());
     }
 
     @Test
@@ -69,15 +70,16 @@ class EmployeeServiceImplTest {
         Position position = Position.builder()
                 .id(positionId).name("Finance Manager").salary(1500).department_id(department).build();
         Employee employee = Employee.builder()
-                .id(employeeId).name("Aygul").surname("Huseynli").email("@AHuseynli").department_id(department).position_id(position).build();
+                .id(employeeId).name("Aygul").surname("Huseynli").email("@AHuseynli").position_id(position).build();
 
         //when
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));
-        EmployeeResponse response = employeeService.getEmployeeById(employeeId);
+        Optional<EmployeeResponse> response = employeeService.getEmployeeById(employeeId);
+        EmployeeResponse response1 = response.get();
         //then
         assertNotNull(response);
-        assertEquals(1, response.id());
-        assertEquals("Aygul", response.name());
+        assertEquals(1, response1.id());
+        assertEquals("Aygul", response1.name());
     }
 
     @Test
@@ -105,9 +107,9 @@ class EmployeeServiceImplTest {
         Position position2 = Position.builder()
                 .id(positionId2).name("Sale Manager").salary(1500).department_id(department2).build();
         Employee employee1 = Employee.builder()
-                .id(employeeId1).name("Aygul").surname("Huseynli").email("@AHuseynli").department_id(department1).position_id(position1).build();
+                .id(employeeId1).name("Aygul").surname("Huseynli").email("@AHuseynli").position_id(position1).build();
         Employee employee2 = Employee.builder()
-                .id(employeeId2).name("Sevinc").surname("Allahyarova").email("@ASevinc").department_id(department2).position_id(position2).build();
+                .id(employeeId2).name("Sevinc").surname("Allahyarova").email("@ASevinc").position_id(position2).build();
 
 
         //when
@@ -125,26 +127,27 @@ class EmployeeServiceImplTest {
         int employeeId = 23;
         int departmentId = 41;
         int positionId = 15;
-        DepartmentDto departmentDto = DepartmentDto.builder().id(departmentId).build();
+
         PositionDto positionDto = PositionDto.builder().id(positionId).build();
         EmployeeRequest request = new EmployeeRequest
-                ("Aygul", "Huseynli", "@Ahuseyn", departmentDto, positionDto);
+                ("Aygul", "Huseynli", "@Ahuseyn", positionDto);
 
         Department department = Department.builder().id(departmentId).name("Finance").build();
         Position position = Position.builder()
                 .id(positionId).name("Finance Manager").salary(1500).department_id(department).build();
         Employee employee = Employee.builder()
-                .id(employeeId).name("Aygul").surname("Huseynli").email("@AHuseyn").department_id(department).position_id(position).build();
+                .id(employeeId).name("Aygul").surname("Huseynli").email("@AHuseyn").position_id(position).build();
 
         //when
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));
         when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
-        EmployeeResponse response = employeeService.updateEmployee(employeeId, request);
+        Optional<EmployeeResponse> response = employeeService.updateEmployee(employeeId, request);
+        EmployeeResponse response1 = response.get();
         //then
         assertNotNull(response);
-        assertEquals("Aygul", response.name());
-        assertEquals("Huseynli", response.surname());
-        assertEquals("@Ahuseyn", response.email());
+        assertEquals("Aygul", response1.name());
+        assertEquals("Huseynli", response1.surname());
+        assertEquals("@Ahuseyn", response1.email());
     }
 
     @Test
@@ -152,10 +155,10 @@ class EmployeeServiceImplTest {
         int employeeId = 1;
         int departmentId = 41;
         int positionId = 15;
-        DepartmentDto departmentDto = DepartmentDto.builder().id(departmentId).build();
+
         PositionDto positionDto = PositionDto.builder().id(positionId).build();
         EmployeeRequest request = new EmployeeRequest
-                ("Aygul", "Huseynli", "@Ahuseyn", departmentDto, positionDto);
+                ("Aygul", "Huseynli", "@Ahuseyn", positionDto);
 
         when(employeeRepository.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -173,7 +176,7 @@ class EmployeeServiceImplTest {
         Position position = Position.builder()
                 .id(positionId).name("Finance Manager").salary(1500).department_id(department).build();
         Employee employee = Employee.builder()
-                .id(employeeId).name("Aygul").surname("Huseynli").email("@AHuseynli").department_id(department).position_id(position).build();
+                .id(employeeId).name("Aygul").surname("Huseynli").email("@AHuseynli").position_id(position).build();
 
         //when
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(employee));

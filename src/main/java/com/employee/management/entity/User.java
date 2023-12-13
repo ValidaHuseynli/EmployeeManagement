@@ -1,15 +1,6 @@
 package com.employee.management.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,9 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Builder
@@ -45,12 +34,12 @@ public class User implements UserDetails {
     private String password;
     private boolean status;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private Set<Role> role;
+    private Set<Role> roles;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -63,11 +52,11 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<SimpleGrantedAuthority> sga = new HashSet<>();
-        for (Role role1 : getRole()) {
-            sga.add(new SimpleGrantedAuthority(role1.getRole()));
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (Role role : this.getRoles()) {
+            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getRole());
         }
-        return sga;
+        return authorities;
     }
 
     @Override

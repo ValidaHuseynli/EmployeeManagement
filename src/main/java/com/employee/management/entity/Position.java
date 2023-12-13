@@ -41,12 +41,11 @@ public class Position {
     private double salary;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "positions_department",
+    @JoinTable(name = "position_department",
             joinColumns = @JoinColumn(name = "position_id"),
             inverseJoinColumns = @JoinColumn(name = "department_id"))
     private Department department_id;
 
-    //,orphanRemoval = true mappedBy = "position_id"
     @OneToMany(orphanRemoval = true, mappedBy = "position_id")
     private Set<Employee> employees;
 

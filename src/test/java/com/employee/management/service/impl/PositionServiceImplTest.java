@@ -17,7 +17,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
@@ -43,7 +45,7 @@ class PositionServiceImplTest {
 
         //when
         when(positionRepository.save(any(Position.class))).thenReturn(position);
-        PositionResponse response = positionService.savePosition(request);
+        Optional<PositionResponse> response = positionService.savePosition(request);
 
         //then
         assertThat(response).isNotNull();
@@ -59,12 +61,12 @@ class PositionServiceImplTest {
         when(positionRepository.findById(positionId)).thenReturn(Optional.of(position));
 
         //when
-        PositionResponse response = positionService.getPositionById(positionId);
-
+        Optional<PositionResponse> response = positionService.getPositionById(positionId);
+        PositionResponse response1 = response.get();
         //then
         assertThat(response).isNotNull();
-        assertEquals(1, response.id());
-        assertEquals("Sales Manager", response.name());
+        assertEquals(1, response1.id());
+        assertEquals("Sales Manager", response1.name());
     }
 
     @Test
@@ -108,12 +110,12 @@ class PositionServiceImplTest {
         //when
         when(positionRepository.findById(positionId)).thenReturn(Optional.of(position));
         when(positionRepository.save(any(Position.class))).thenReturn(position);
-        PositionResponse response = positionService.updatePosition(positionId, request);
-
+        Optional<PositionResponse> response = positionService.updatePosition(positionId, request);
+        PositionResponse response1 = response.get();
         //then
         assertNotNull(response);
-        assertEquals("Sales Manager", response.name());
-        assertEquals(1400, response.salary());
+        assertEquals("Sales Manager", response1.name());
+        assertEquals(1400, response1.salary());
     }
 
     @Test

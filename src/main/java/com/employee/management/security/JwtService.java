@@ -1,4 +1,4 @@
-package com.employee.management.service.jwt;
+package com.employee.management.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -19,16 +19,19 @@ import java.util.function.Function;
 public class JwtService {
     @Value("${secret.key}")
     private String secretKey;
+    private static final long EXPIRATION_TIME = 86_400_000; // 24 hours in milliseconds
+
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
     public String generateToken(UserDetails userDetails) {
+
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey())
                 .compact();
     }

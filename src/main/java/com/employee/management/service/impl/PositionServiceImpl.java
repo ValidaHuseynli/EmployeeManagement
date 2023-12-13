@@ -12,16 +12,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PositionServiceImpl implements PositionService {
 
     private final PositionRepository positionRepository;
+    private final DepartmentServiceImpl departmentService;
+
     private static final Logger logger = LoggerFactory.getLogger(PositionServiceImpl.class);
 
     @Override
-    public PositionResponse savePosition(PositionRequest request) {
+    public Optional<PositionResponse> savePosition(PositionRequest request) {
         logger.info("ActionLog.savePosition.start: {}", request);
 
         var position = PositionMapper.INSTANCE.modelToEntity(request);
@@ -29,11 +32,11 @@ public class PositionServiceImpl implements PositionService {
         var response = PositionMapper.INSTANCE.entityToModel(saved);
 
         logger.info("ActionLog.savePosition.end: {}", request);
-        return response;
+        return Optional.of(response);
     }
 
     @Override
-    public PositionResponse getPositionById(int id) {
+    public Optional<PositionResponse> getPositionById(int id) {
         logger.info("ActionLog.getPosition.start id: {}", id);
 
         var position = positionRepository.findById(id)
@@ -41,7 +44,7 @@ public class PositionServiceImpl implements PositionService {
         var response = PositionMapper.INSTANCE.entityToModel(position);
 
         logger.info("ActionLog.getPosition.end id: {}", id);
-        return response;
+        return Optional.of(response);
     }
 
     @Override
@@ -56,7 +59,7 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public PositionResponse updatePosition(int id, PositionRequest request) {
+    public Optional<PositionResponse> updatePosition(int id, PositionRequest request) {
         logger.info("ActionLog.updatePosition.start id: {}", id);
 
         var position = positionRepository.findById(id)
@@ -66,7 +69,7 @@ public class PositionServiceImpl implements PositionService {
         var response = PositionMapper.INSTANCE.entityToModel(saved);
 
         logger.info("ActionLog.updatePosition.end id: {}", id);
-        return response;
+        return Optional.of(response);
     }
 
     @Override
@@ -79,4 +82,5 @@ public class PositionServiceImpl implements PositionService {
 
         logger.info("ActionLog.deletePosition.end id: {}", id);
     }
+
 }

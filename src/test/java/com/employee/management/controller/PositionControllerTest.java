@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.when;
@@ -48,7 +49,7 @@ class PositionControllerTest {
         DepartmentDto departmentDto = DepartmentDto.builder().id(departmentId).build();
         PositionRequest request = new PositionRequest("Finance Manager", 1500, departmentDto);
         PositionResponse response = new PositionResponse(positionId, "Finance Manager", 1500, departmentDto);
-        when(positionService.savePosition(request)).thenReturn(response);
+        when(positionService.savePosition(request)).thenReturn(Optional.of(response));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/employee_management/positions")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN")))
@@ -67,7 +68,7 @@ class PositionControllerTest {
         DepartmentDto departmentDto = DepartmentDto.builder().id(departmentId).build();
         PositionResponse response = new PositionResponse(positionId, "Finance Manager", 1500, departmentDto);
 
-        when(positionService.getPositionById(positionId)).thenReturn(response);
+        when(positionService.getPositionById(positionId)).thenReturn(Optional.of(response));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/employee_management/positions/{id}", positionId)
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"),
@@ -108,7 +109,7 @@ class PositionControllerTest {
         PositionRequest request = new PositionRequest("Sales Manager", 1500, departmentDto);
         PositionResponse response = new PositionResponse(positionId, "Finance Manager", 1500, departmentDto);
 
-        when(positionService.updatePosition(positionId, request)).thenReturn(response);
+        when(positionService.updatePosition(positionId, request)).thenReturn(Optional.of(response));
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/employee_management/positions/{id}", positionId)
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN")))

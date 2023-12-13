@@ -4,16 +4,17 @@ import com.employee.management.model.DepartmentRequest;
 import com.employee.management.model.DepartmentResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DepartmentService {
 
-    DepartmentResponse saveDepartment(DepartmentRequest request);
+    Optional<DepartmentResponse> saveDepartment(DepartmentRequest request);
 
-    DepartmentResponse getDepartmentById(int id);
+    Optional<DepartmentResponse> getDepartmentById(int id);
 
     List<DepartmentResponse> getAllDepartments();
 
-    DepartmentResponse updateDepartment(int id, DepartmentRequest request);
+    Optional<DepartmentResponse> update(int id, DepartmentRequest request);
 
     void deleteDepartment(int id);
 

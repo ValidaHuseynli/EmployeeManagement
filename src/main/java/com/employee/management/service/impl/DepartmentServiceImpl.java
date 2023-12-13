@@ -1,5 +1,6 @@
 package com.employee.management.service.impl;
 
+import com.employee.management.entity.Department;
 import com.employee.management.exception.NotFoundException;
 import com.employee.management.mapper.DepartmentMapper;
 import com.employee.management.model.DepartmentRequest;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     private static final Logger logger = LoggerFactory.getLogger(DepartmentServiceImpl.class);
 
     @Override
-    public DepartmentResponse saveDepartment(DepartmentRequest request) {
+    public Optional<DepartmentResponse> saveDepartment(DepartmentRequest request) {
         logger.info("ActionLog.saveDepartment.start: {}", request);
         var department = DepartmentMapper.INSTANCE.modelToEntity(request);
 
@@ -29,11 +31,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         var response = DepartmentMapper.INSTANCE.entityToModel(saved);
         logger.info("ActionLog.saveDepartment.end: {}", response);
-        return response;
+        return Optional.of(response);
     }
 
     @Override
-    public DepartmentResponse getDepartmentById(int id) {
+    public Optional<DepartmentResponse> getDepartmentById(int id) {
         logger.info("ActionLog.getDepartment.start id: {}", id);
 
         var department = departmentRepository.findById(id)
@@ -41,7 +43,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         var response = DepartmentMapper.INSTANCE.entityToModel(department);
 
         logger.info("ActionLog.getDepartment.end id: {}", id);
-        return response;
+        return Optional.of(response);
     }
 
     @Override
@@ -56,17 +58,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public DepartmentResponse updateDepartment(int id, DepartmentRequest request) {
-        logger.info("ActionLog.updateDepartment.start id: {}", id);
-
-        var department = departmentRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Department is not found for id: " + id));
-        DepartmentMapper.INSTANCE.modelToEntityUpdate(department, request);
-        var saved = departmentRepository.save(department);
-        var response = DepartmentMapper.INSTANCE.entityToModel(saved);
-
-        logger.info("ActionLog.updateDepartment.end id: {}", id);
-        return response;
+    public Optional<DepartmentResponse> update(int id, DepartmentRequest request) {
+        Department department = departmentRepository.findById(id)
+                .map(e ->
+                {
+                    e.setName(request.name());
+                    return departmentRepository.save(e);
+                }).orElseThrow(() -> new NotFoundException("Department is not found for id: " + id));
+        DepartmentResponse response = DepartmentMapper.INSTANCE.entityToModel(department);
+        return Optional.of(response);
     }
 
     @Override
@@ -79,6 +79,5 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         logger.info("ActionLog.deleteDepartment.end id: {}", id);
     }
-
 
 }

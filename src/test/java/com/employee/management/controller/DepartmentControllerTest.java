@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.when;
@@ -45,7 +46,7 @@ class DepartmentControllerTest {
         DepartmentRequest request = new DepartmentRequest("Finance");
         DepartmentResponse response = new DepartmentResponse(73, "Finance");
 
-        when(departmentService.saveDepartment(request)).thenReturn(response);
+        when(departmentService.saveDepartment(request)).thenReturn(Optional.of(response));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/employee_management/departments")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN")))
@@ -62,7 +63,7 @@ class DepartmentControllerTest {
     void getDepartmentByIdTest() throws Exception {
         int departmentId = 73;
         DepartmentResponse response = new DepartmentResponse(departmentId, "Finance");
-        when(departmentService.getDepartmentById(departmentId)).thenReturn(response);
+        when(departmentService.getDepartmentById(departmentId)).thenReturn(Optional.of(response));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/employee_management/departments/{id}", departmentId)
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN"),
@@ -94,7 +95,7 @@ class DepartmentControllerTest {
         int departmentId = 73;
         DepartmentRequest request = new DepartmentRequest("Sale");
         DepartmentResponse response = new DepartmentResponse(departmentId, "Finance");
-        when(departmentService.updateDepartment(departmentId, request)).thenReturn(response);
+        when(departmentService.update(departmentId, request)).thenReturn(Optional.of(response));
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/employee_management/departments/{id}", departmentId)
                         .with(jwt().authorities(new SimpleGrantedAuthority("ADMIN")))

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private static final Logger logger = LoggerFactory.getLogger(PositionServiceImpl.class);
 
     @Override
-    public EmployeeResponse saveEmployee(EmployeeRequest request) {
+    public Optional<EmployeeResponse> saveEmployee(EmployeeRequest request) {
         logger.info("ActionLog.saveEmployee.start: {}", request);
 
         Employee employee = EmployeeMapper.INSTANCE.modelToEntity(request);
@@ -30,11 +31,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         EmployeeResponse response = EmployeeMapper.INSTANCE.entityToModel(saved);
 
         logger.info("ActionLog.saveEmployee.end: {}", request);
-        return response;
+        return Optional.of(response);
     }
 
     @Override
-    public EmployeeResponse getEmployeeById(int id) {
+    public Optional<EmployeeResponse> getEmployeeById(int id) {
         logger.info("ActionLog.getEmployeeById.start id: {}", id);
 
         Employee employee = employeeRepository.findById(id)
@@ -42,7 +43,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         EmployeeResponse response = EmployeeMapper.INSTANCE.entityToModel(employee);
 
         logger.info("ActionLog.getEmployeeById.end id: {}", id);
-        return response;
+        return Optional.of(response);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeResponse updateEmployee(int id, EmployeeRequest request) {
+    public Optional<EmployeeResponse> updateEmployee(int id, EmployeeRequest request) {
         logger.info("ActionLog.updateEmployee.start id: {}", id);
 
         Employee employee = employeeRepository.findById(id)
@@ -67,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         EmployeeResponse response = EmployeeMapper.INSTANCE.entityToModel(saved);
 
         logger.info("ActionLog.updateEmployee.end id: {}", id);
-        return response;
+        return Optional.of(response);
     }
 
     @Override
@@ -80,4 +81,5 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         logger.info("ActionLog.deleteEmployee.end id: {}", id);
     }
+
 }

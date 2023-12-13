@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,12 +19,12 @@ public class DepartmentController {
     private final DepartmentService departmentService;
 
     @PostMapping
-    public DepartmentResponse saveDepartment(@RequestBody DepartmentRequest request) {
+    public Optional<DepartmentResponse> saveDepartment(@RequestBody DepartmentRequest request) {
         return departmentService.saveDepartment(request);
     }
 
     @GetMapping("/{id}")
-    public DepartmentResponse getDepartmentById(@PathVariable int id) {
+    public Optional<DepartmentResponse> getDepartmentById(@PathVariable int id) {
         return departmentService.getDepartmentById(id);
     }
 
@@ -33,8 +34,8 @@ public class DepartmentController {
     }
 
     @PutMapping("/{id}")
-    public DepartmentResponse updateDepartment(@PathVariable int id, @RequestBody DepartmentRequest request) {
-        return departmentService.updateDepartment(id, request);
+    public Optional<DepartmentResponse> updateDepartment(@PathVariable int id, @RequestBody DepartmentRequest request) {
+        return departmentService.update(id, request);
     }
 
     @DeleteMapping("/{id}")

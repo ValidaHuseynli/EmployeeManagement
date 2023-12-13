@@ -1,6 +1,6 @@
-package com.employee.management.filter;
+package com.employee.management.security;
 
-import com.employee.management.service.jwt.JwtService;
+import com.employee.management.security.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

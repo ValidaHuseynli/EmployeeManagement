@@ -4,16 +4,17 @@ import com.employee.management.model.PositionRequest;
 import com.employee.management.model.PositionResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PositionService {
 
-    PositionResponse savePosition(PositionRequest request);
+    Optional<PositionResponse> savePosition(PositionRequest request);
 
-    PositionResponse getPositionById(int id);
+    Optional<PositionResponse> getPositionById(int id);
 
     List<PositionResponse> getAllPositions();
 
-    PositionResponse updatePosition(int id, PositionRequest request);
+    Optional<PositionResponse> updatePosition(int id, PositionRequest request);
 
     void deletePosition(int id);
 

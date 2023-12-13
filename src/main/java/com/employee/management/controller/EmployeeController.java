@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,12 +18,12 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping
-    public EmployeeResponse saveEmployee(@RequestBody EmployeeRequest request) {
+    public Optional<EmployeeResponse> saveEmployee(@RequestBody EmployeeRequest request) {
         return employeeService.saveEmployee(request);
     }
 
     @GetMapping("/{id}")
-    public EmployeeResponse getEmployeeById(@PathVariable int id) {
+    public Optional<EmployeeResponse> getEmployeeById(@PathVariable int id) {
         return employeeService.getEmployeeById(id);
     }
 
@@ -32,7 +33,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public EmployeeResponse updateEmployee(@PathVariable int id, EmployeeRequest request) {
+    public Optional<EmployeeResponse> updateEmployee(@PathVariable int id, EmployeeRequest request) {
         return employeeService.updateEmployee(id, request);
     }
 

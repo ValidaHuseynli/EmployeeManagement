@@ -39,13 +39,7 @@ public class Employee {
     private String email;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "employees_department",
-            joinColumns = @JoinColumn(name = "employees_id"),
-            inverseJoinColumns = @JoinColumn(name = "department_id"))
-    private Department department_id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "employees_position",
+    @JoinTable(name = "employee_position",
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "position_id"))
     private Position position_id;
